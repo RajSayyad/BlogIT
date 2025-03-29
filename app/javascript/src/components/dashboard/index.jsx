@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 
 import Logger from "js-logger";
 
-import postsAPI from "../apis/posts";
+import postsAPI from "../../apis/posts";
+import BlogPrev from "../blogprev";
 
-const Home = () => {
+const Dashboard = () => {
   const [posts, setPosts] = useState([]);
 
   const fetchPosts = async () => {
     try {
       const response = await postsAPI.fetch();
-      setPosts(response.data.posts); // Ensure this matches your API response structure
+      setPosts(response.data.posts);
     } catch (error) {
       Logger.error(error);
     }
@@ -21,15 +22,15 @@ const Home = () => {
   }, []);
 
   return (
-    <ul>
-      <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl dark:text-white">
-        Welcome to My Blog
+    <>
+      <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-4xl">
+        Blog Posts
       </h1>
       {posts.map(post => (
-        <li key={post.id}>{post.title}</li> // ✅ Fix: Correctly render post title
+        <BlogPrev key={post.id} post={post} />
       ))}
-    </ul>
+    </>
   );
 };
 
-export default Home;
+export default Dashboard;
