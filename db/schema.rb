@@ -10,15 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_29_105608) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_30_060829) do
   create_table "posts", force: :cascade do |t|
     t.string "title", null: false
     t.string "description", null: false
     t.integer "upvotes", default: 0
     t.integer "downvotes", default: 0
-    t.boolean "is_bloggable"
+    t.boolean "is_bloggable", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug", null: false
+    t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 
 end
