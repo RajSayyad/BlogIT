@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   root "home#index"
-  resources :posts, only: [:index]
+  resources :posts, only: [:index, :create]
 
   # Ensures React handles routing
   get "*path", to: "home#index", constraints: ->(req) { !req.xhr? && req.format.html? }
