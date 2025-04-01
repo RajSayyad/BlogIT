@@ -1,11 +1,15 @@
 import React from "react";
 
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
-import About from "./components/About";
 import Dashboard from "./components/dashboard";
-import { CreateTask } from "./components/post";
+import { CreateTask, ShowTask } from "./components/post";
 import Sidebar from "./components/sidebar";
 
 const App = () => (
@@ -17,7 +21,10 @@ const App = () => (
         <Switch>
           <Route exact component={CreateTask} path="/post/create" />
           <Route exact component={Dashboard} path="/" />
-          <Route exact component={About} path="/about" />
+          <Route exact path="/dashboard">
+            <Redirect to="/" />
+          </Route>
+          <Route exact component={ShowTask} path="/post/:slug" />
         </Switch>
       </div>
     </div>

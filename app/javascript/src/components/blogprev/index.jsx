@@ -1,17 +1,18 @@
 import React from "react";
 
+import { DateView, CategoryView, HeadingView } from "../commons";
+
 const BlogPrev = ({ post }) => {
   const dateStr = post.created_at;
-  const date = new Date(dateStr);
-  const extractedDate = date.toISOString().split("T")[0];
 
   return (
-    <div>
-      <h1 className="mt-8 text-xl font-semibold tracking-tight text-gray-900 md:text-xl">
-        {post.title}
-      </h1>
-      <p className="mt-3 line-clamp-2">{post.description}</p>
-      <p className="mt-1 text-sm text-gray-400">{extractedDate}</p>
+    <div className="mt-8">
+      <HeadingView heading={post.title} />
+      <CategoryView post={post} />
+      <div className="ml-1 mt-4">
+        <p className="text-sm text-gray-600">{post.user.name}</p>
+        <DateView dateStr={dateStr} />
+      </div>
       <hr className="mt-2" />
     </div>
   );

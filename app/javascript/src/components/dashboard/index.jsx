@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 
 import postsAPI from "../../apis/posts";
 import BlogPrev from "../blogprev";
+import { HeadingView } from "../commons";
 
 const Dashboard = () => {
   const [posts, setPosts] = useState([]);
-
   const fetchPosts = async () => {
     try {
       const response = await postsAPI.fetch();
@@ -32,11 +32,11 @@ const Dashboard = () => {
           Add new Blog Post
         </button>
       </Link>
-      <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-4xl">
-        Blog Posts
-      </h1>
+      <HeadingView heading="Blog Posts" />
       {posts.map(post => (
-        <BlogPrev key={post.id} post={post} />
+        <Link key={post.id} to={`/post/${post.slug}`}>
+          <BlogPrev post={post} />
+        </Link>
       ))}
     </>
   );

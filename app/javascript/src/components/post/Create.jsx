@@ -1,14 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Logger from "js-logger";
+import { useHistory } from "react-router-dom";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import categoryApi from "../../apis/categories";
 import postsAPI from "../../apis/posts";
+import { HeadingView } from "../commons";
+
+const animatedComponents = makeAnimated();
 
 const Create = () => {
+  const history = useHistory();
+  const [categories, setCategories] = useState([]);
+  const [postCategories, setPostCategories] = useState([]);
   const [postTitle, setPostTitle] = useState("");
   const [postDescription, setPostDescription] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCat = async () => {
+      try {
+        const response = await categoryApi.fetchCategories();
+        setCategories(response.data);
+        setLoading(false);
+      } catch (error) {
+        Logger.log(error);
+        history.push("/");
+      }
+    };
+    fetchCat();
+  }, []);
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -17,22 +42,26 @@ const Create = () => {
       await postsAPI.create({
         title: postTitle,
         description: postDescription,
+        user_id: 1,
+        organization_id: 1,
+        category_ids: postCategories,
       });
 
       toast.success("New Post Created");
       setPostTitle("");
       setPostDescription("");
+      history.push("/dashboard");
     } catch (error) {
       toast.error("Error");
       Logger.error("Error creating post:", error);
     }
   };
 
+  if (loading) return <HeadingView heading="Loading" />;
+
   return (
     <>
-      <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-4xl">
-        New Blog Post
-      </h1>
+      <HeadingView heading="New Blog Post" />
       <div className="mt-6 flex h-full w-full items-center justify-center rounded-lg border border-gray-300 p-6 shadow-lg">
         <div className="flex h-96 w-full flex-col gap-4 rounded-lg bg-white p-4">
           <form className="flex flex-1 flex-col gap-4" onSubmit={handleSubmit}>
@@ -47,6 +76,32 @@ const Create = () => {
                 type="text"
                 value={postTitle}
                 onChange={e => setPostTitle(e.target.value)}
+              />
+            </div>
+            <div className="w-full">
+              <Select
+                isMulti
+                closeMenuOnSelect={false}
+                components={animatedComponents}
+                defaultValue={
+                  categories?.length > 5
+                    ? [
+                        { value: categories[0].id, label: categories[0].name },
+                        { value: categories[4].id, label: categories[4].name },
+                      ]
+                    : []
+                }
+                options={
+                  categories
+                    ? categories.map(category => ({
+                        value: category.id,
+                        label: category.name,
+                      }))
+                    : []
+                }
+                onChange={selectedOptions =>
+                  setPostCategories(selectedOptions.map(option => option.value))
+                }
               />
             </div>
             <div className="w-full">
