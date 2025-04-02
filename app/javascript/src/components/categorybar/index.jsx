@@ -36,7 +36,7 @@ const CategoryBar = ({ setPostCategories, setIsOpen }) => {
       }
     };
     fetchCat();
-  }, []);
+  }, [categories.length]);
 
   return (
     <>
