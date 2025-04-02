@@ -20,7 +20,7 @@ const Dashboard = ({ postCategories }) => {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [posts.length]);
 
   return (
     <>

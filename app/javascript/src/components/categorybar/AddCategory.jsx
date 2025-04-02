@@ -1,9 +1,22 @@
 import React, { useState } from "react";
 
 import { X } from "lucide-react";
+import { toast } from "react-toastify";
+
+import categoryApi from "../../apis/categories";
 
 const AddCategory = ({ isAddCategory, handleAddCategory }) => {
   const [categoryTitle, setCategoryTitle] = useState("");
+
+  const addNewCategory = async () => {
+    try {
+      await categoryApi.addCategory({ name: categoryTitle });
+      toast.success("New Category Created");
+      handleAddCategory();
+    } catch (error) {
+      toast.error(error);
+    }
+  };
 
   return (
     <>
@@ -26,6 +39,7 @@ const AddCategory = ({ isAddCategory, handleAddCategory }) => {
               <button
                 className="align-items-center w-14 rounded-md border border-gray-700 bg-[#050708] py-1 text-xs text-white hover:bg-gray-600 focus:outline-none focus:ring-4 focus:ring-[#050708]/50"
                 type="submit"
+                onClick={addNewCategory}
               >
                 Add
               </button>

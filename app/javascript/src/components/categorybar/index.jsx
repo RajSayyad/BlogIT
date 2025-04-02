@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Logger from "js-logger";
 import { Search, Plus } from "lucide-react";
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 
@@ -11,13 +12,19 @@ import categoryApi from "../../apis/categories";
 
 const animatedComponents = makeAnimated();
 
-const CategoryBar = ({ setPostCategories }) => {
+const CategoryBar = ({ setPostCategories, setIsOpen }) => {
   const [categories, setCategories] = useState(null);
   const [isAddCategory, setIsAddCategory] = useState(false);
+
+  const location = useLocation();
 
   const handleAddCategory = () => {
     setIsAddCategory(!isAddCategory);
   };
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     const fetchCat = async () => {

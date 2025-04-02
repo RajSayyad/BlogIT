@@ -13,7 +13,7 @@ import Dashboard from "./components/dashboard";
 import { CreateTask, ShowTask } from "./components/post";
 import Sidebar from "./components/sidebar";
 
-const App = () => {
+const Root = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [postCategories, setPostCategories] = useState([]);
   const handleOpen = () => {
@@ -26,7 +26,10 @@ const App = () => {
         <ToastContainer autoClose={3000} position="top-right" />
         <Sidebar handleOpen={handleOpen} />
         <div className={`${!isOpen ? "hidden" : ""}`}>
-          <CategoryBar setPostCategories={setPostCategories} />
+          <CategoryBar
+            setIsOpen={setIsOpen}
+            setPostCategories={setPostCategories}
+          />
         </div>
         <div className={`${isOpen ? "ml-[375px]" : "ml-24"} mt-6 flex-1 p-6`}>
           <Switch>
@@ -46,5 +49,11 @@ const App = () => {
     </Router>
   );
 };
+
+const App = () => (
+  <Router>
+    <Root />
+  </Router>
+);
 
 export default App;

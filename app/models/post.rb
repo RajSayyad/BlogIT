@@ -5,7 +5,7 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :organization
   validates :title, presence: true, length: { maximum: 125 }
-  validates :description, presence: true, length: { maximum: 1000 }
+  validates :description, presence: true, length: { maximum: 10_000 }
   validates :is_bloggable, inclusion: { in: [true, false] }
   validates :slug, uniqueness: true
   validate :slug_not_changed
