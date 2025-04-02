@@ -13,7 +13,7 @@ import categoryApi from "../../apis/categories";
 const animatedComponents = makeAnimated();
 
 const CategoryBar = ({ setPostCategories, setIsOpen }) => {
-  const [categories, setCategories] = useState(null);
+  const [categories, setCategories] = useState([]);
   const [isAddCategory, setIsAddCategory] = useState(false);
 
   const location = useLocation();

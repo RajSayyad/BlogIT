@@ -14,8 +14,14 @@ class PostsController < ApplicationController
 
   def create
     post = Post.new(post_params)
-    post.save!
-    render status: :ok, json: { message: "New Post is Created" }
+    if post.save
+      render json: {
+        message: "New Post is Created",
+        post: post.as_json(only: [:id, :title, :description]).merge(description: post.description.gsub("\n", "<br>"))
+      }, status: :ok
+    else
+      render json: { error: post.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   private
