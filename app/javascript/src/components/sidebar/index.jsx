@@ -3,11 +3,11 @@ import React from "react";
 import { Book, ListStart, Settings, LogOut } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ({ handleOpen }) => {
   const location = useLocation();
   const menuItems = [
     { name: "Dashboard", icon: <Book size={16} />, path: "/" },
-    { name: "Blog Posts", icon: <ListStart size={16} />, path: "/about" },
+    { name: "Blog Posts", icon: <ListStart size={16} />, path: "/" },
   ];
 
   const menuItems1 = [
@@ -49,8 +49,11 @@ const Sidebar = () => {
               <Link
                 to={item.path}
                 className={`flex cursor-pointer items-center rounded-lg p-2 hover:bg-gray-100 ${
-                  location.pathname === item.path ? "bg-gray-200" : ""
+                  location.pathname === item.path && item.name !== "Blog Posts"
+                    ? "bg-gray-200"
+                    : ""
                 }`}
+                onClick={item.name === "Blog Posts" ? handleOpen : undefined}
               >
                 {item.icon}
               </Link>

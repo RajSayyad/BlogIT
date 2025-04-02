@@ -16,7 +16,7 @@ const animatedComponents = makeAnimated();
 const Create = () => {
   const history = useHistory();
   const [categories, setCategories] = useState([]);
-  const [postCategories, setPostCategories] = useState([]);
+  const [postCategories, setPostCategories] = useState(null);
   const [postTitle, setPostTitle] = useState("");
   const [postDescription, setPostDescription] = useState("");
   const [loading, setLoading] = useState(true);

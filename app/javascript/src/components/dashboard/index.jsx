@@ -7,7 +7,7 @@ import postsAPI from "../../apis/posts";
 import BlogPrev from "../blogprev";
 import { HeadingView } from "../commons";
 
-const Dashboard = () => {
+const Dashboard = ({ postCategories }) => {
   const [posts, setPosts] = useState([]);
   const fetchPosts = async () => {
     try {
@@ -33,11 +33,21 @@ const Dashboard = () => {
         </button>
       </Link>
       <HeadingView heading="Blog Posts" />
-      {posts.map(post => (
-        <Link key={post.id} to={`/post/${post.slug}`}>
-          <BlogPrev post={post} />
-        </Link>
-      ))}
+      {postCategories.length === 0
+        ? posts.map(post => (
+            <Link key={post.id} to={`/post/${post.slug}`}>
+              <BlogPrev post={post} />
+            </Link>
+          ))
+        : posts
+            .filter(post =>
+              post.categories.some(cat => postCategories.includes(cat.id))
+            )
+            .map(post => (
+              <Link key={post.id} to={`/post/${post.slug}`}>
+                <BlogPrev post={post} />
+              </Link>
+            ))}
     </>
   );
 };
