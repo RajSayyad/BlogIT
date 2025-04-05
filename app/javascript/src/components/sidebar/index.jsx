@@ -2,17 +2,37 @@ import React from "react";
 
 import { Book, ListStart, Settings, LogOut } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+
+import authApi from "../../apis/auth";
 
 const Sidebar = ({ handleOpen }) => {
   const location = useLocation();
+
+  const handleLogout = async () => {
+    try {
+      await authApi.logout();
+    } catch (error) {
+      toast.error(error.response.data.error[0]);
+    } finally {
+      localStorage.clear();
+      toast.error("Logged out");
+      window.location.href = "/"; // Optional: Redirect to login or home
+    }
+  };
+
   const menuItems = [
-    { name: "Dashboard", icon: <Book size={16} />, path: "/" },
+    { name: "Dashboard", icon: <Book size={16} />, path: "/dashboard" },
     { name: "Blog Posts", icon: <ListStart size={16} />, path: "/" },
   ];
 
   const menuItems1 = [
     { name: "Settings", icon: <Settings size={16} />, path: "/settings" },
-    { name: "Logout", icon: <LogOut size={16} />, path: "/logout" },
+    {
+      name: "Logout",
+      icon: <LogOut size={16} />,
+      path: "/logout",
+    },
   ];
 
   return (
@@ -69,6 +89,7 @@ const Sidebar = ({ handleOpen }) => {
                   className={`flex cursor-pointer items-center rounded-lg p-2 hover:bg-gray-600 ${
                     location.pathname === item.path ? "bg-gray-800" : ""
                   }`}
+                  onClick={item.name === "Logout" ? handleLogout : undefined}
                 >
                   {item.icon}
                 </Link>
