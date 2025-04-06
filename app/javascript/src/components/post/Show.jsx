@@ -40,6 +40,15 @@ const Show = () => {
         <div className="flex">
           <div>
             <HeadingView heading={post.title} />
+            <div className="m-1 mb-1 flex w-auto">
+              <div
+                className={`align-items-center rounded-xl border border-red-400 bg-red-200 ${
+                  post.is_bloggable ? "hidden" : " "
+                }`}
+              >
+                <p className="px-4 text-xs">Draft</p>
+              </div>
+            </div>
           </div>
           <div className="group fixed right-28">
             <Link className="hover:underline" to={`/post/${slug}/edit`}>
