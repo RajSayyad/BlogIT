@@ -16,6 +16,10 @@ const publishOrDraft = slug => axios.patch(`/posts/${slug}`);
 
 const myPosts = () => axios.get("/posts/my_posts");
 
+const upVote = slug => axios.put(`/posts/${slug}/upvote`);
+
+const downVote = slug => axios.put(`/posts/${slug}/downvote`);
+
 const postsAPI = {
   fetch,
   create,
@@ -24,6 +28,8 @@ const postsAPI = {
   deletePost,
   publishOrDraft,
   myPosts,
+  upVote,
+  downVote,
 };
 
 export default postsAPI;

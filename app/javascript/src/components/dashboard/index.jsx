@@ -56,11 +56,7 @@ const Dashboard = ({ postCategories }) => {
         </Link>
       </div>
       {currentPosts.length > 0 ? (
-        currentPosts.map(post => (
-          <Link key={post.id} to={`/post/${post.slug}`}>
-            <BlogPrev post={post} />
-          </Link>
-        ))
+        currentPosts.map(post => <BlogPrev key={post.id} post={post} />)
       ) : (
         <p className="text-center text-gray-500">No posts found.</p>
       )}

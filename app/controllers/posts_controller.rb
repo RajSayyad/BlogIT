@@ -2,15 +2,24 @@
 
 class PostsController < ApplicationController
   def index
-    posts = policy_scope(Post).includes(:categories, :user)
+    posts = policy_scope(Post).includes(:categories, :user, :votes)
     authorize Post
-    render status: :ok, json: {
-      posts: posts.as_json(
+
+    posts_with_votes = posts.map do |post|
+      vote = post.votes.find_by(user_id: current_user.id)
+      post.as_json(
         include: {
           categories: {},
           user: { only: [:id, :name] }
-        })
-    }
+        }
+      ).merge(
+        upvotes: post.votes.upvote.count,
+        downvotes: post.votes.downvote.count,
+        user_vote: vote&.vote_type # "upvote", "downvote", or nil
+      )
+    end
+
+    render status: :ok, json: { posts: posts_with_votes }
   end
 
   def show
@@ -47,7 +56,7 @@ class PostsController < ApplicationController
   end
 
   def toggle_bloggable
-    post = Post.find(params[:id])
+    post = Post.find_by(slug: params[:slug])
     authorize post
 
     post.is_bloggable = false
@@ -64,6 +73,56 @@ class PostsController < ApplicationController
     render json: posts.as_json(include: { categories: {}, user: { only: [:id, :name] } }), status: :ok
   end
 
+  def upvote
+    post = Post.find_by(slug: params[:slug])
+    return render status: :not_found, json: { error: "Post not found" } unless post
+
+    vote = post.votes.find_or_initialize_by(user_id: current_user.id)
+
+    if vote.vote_type == "upvote"
+      render json: { message: "Already upvoted" }, status: :unprocessable_entity
+    else
+      vote.vote_type = "upvote"
+      vote.save!
+
+      post.update(
+        upvotes: post.votes.upvote.count,
+        downvotes: post.votes.downvote.count
+      )
+
+      render json: {
+        message: "Upvoted!",
+        upvotes: post.upvotes,
+        downvotes: post.downvotes
+      }
+    end
+  end
+
+  def downvote
+    post = Post.find_by(slug: params[:slug])
+    return render status: :not_found, json: { error: "Post not found" } unless post
+
+    vote = post.votes.find_or_initialize_by(user_id: current_user.id)
+
+    if vote.vote_type == "downvote"
+      render json: { message: "Already downvoted" }, status: :unprocessable_entity
+    else
+      vote.vote_type = "downvote"
+      vote.save!
+
+      post.update(
+        upvotes: post.votes.upvote.count,
+        downvotes: post.votes.downvote.count
+      )
+
+      render json: {
+        message: "Downvoted!",
+        upvotes: post.upvotes,
+        downvotes: post.downvotes
+      }
+    end
+  end
+
   def destroy
     post = Post.find_by(slug: params[:slug])
     authorize post
@@ -77,6 +136,8 @@ class PostsController < ApplicationController
   private
 
     def post_params
-      params.require(:post).permit(:title, :description, :user_id, :organization_id, :is_bloggable, category_ids: [])
+      params.require(:post).permit(
+        :title, :description, :user_id, :organization_id, :is_bloggable, :upvote, :downvote,
+        category_ids: [])
     end
 end

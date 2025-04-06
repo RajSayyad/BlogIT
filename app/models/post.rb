@@ -2,6 +2,7 @@
 
 class Post < ApplicationRecord
   has_and_belongs_to_many :categories
+  has_many :votes
   belongs_to :user
   belongs_to :organization
   validates :title, presence: true, length: { maximum: 125 }

@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   resources :posts, only: [:index, :create, :show, :update, :destroy], param: :slug do
     member do
       patch :toggle_bloggable
+      put :upvote
+      put :downvote
     end
 
     collection do
