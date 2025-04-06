@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Book, ListStart, Settings, LogOut } from "lucide-react";
+import { Book, ListStart, Settings, LogOut, Folder } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -24,6 +24,7 @@ const Sidebar = ({ handleOpen }) => {
   const menuItems = [
     { name: "Dashboard", icon: <Book size={16} />, path: "/dashboard" },
     { name: "Blog Posts", icon: <ListStart size={16} />, path: "/" },
+    { name: "My Blogs", icon: <Folder />, path: "/my-posts" },
   ];
 
   const menuItems1 = [

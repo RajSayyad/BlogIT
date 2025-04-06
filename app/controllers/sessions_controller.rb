@@ -12,7 +12,12 @@ class SessionsController < ApplicationController
           id: @user.id,
           name: @user.name,
           email: @user.email
+        },
+        organization: {
+          name: @user.organization.name,
+          id: @user.organization.id
         }
+
       }
     else
       render status: :unauthorized, json: { message: "Wrong Credentials" }

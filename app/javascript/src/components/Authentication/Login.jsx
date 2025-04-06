@@ -23,6 +23,8 @@ const Login = () => {
         email: email.toLowerCase(),
         userId: response.data.user.id,
         userName: response.data.user.name,
+        userOrgId: response.data.organization.id,
+        userOrgName: response.data.organization.name,
       });
       toast.success(response.data.message);
       setAuthHeaders();

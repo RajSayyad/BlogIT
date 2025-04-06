@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   root "home#index"
-  resources :posts, only: [:index, :create, :show], param: :slug
+  resources :posts, only: [:index, :create, :show, :update], param: :slug
   resources :categories, only: [:index, :create]
   resources :users, only: [:create]
   resources :sessions, only: [:create, :destroy]
