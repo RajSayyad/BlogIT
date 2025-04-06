@@ -2,9 +2,15 @@
 
 class PostsController < ApplicationController
   def index
-    posts = Post.includes(:categories, :user).all
+    posts = policy_scope(Post).includes(:categories, :user)
     authorize Post
-    render status: :ok, json: { posts: posts.as_json(include: { categories: {}, user: { only: [:id, :name] } }) }
+    render status: :ok, json: {
+      posts: posts.as_json(
+        include: {
+          categories: {},
+          user: { only: [:id, :name] }
+        })
+    }
   end
 
   def show
@@ -40,6 +46,18 @@ class PostsController < ApplicationController
     end
   end
 
+  def toggle_bloggable
+    post = Post.find(params[:id])
+    authorize post
+
+    post.is_bloggable = false
+    if post.save
+      render json: { message: "Bloggability toggled", is_bloggable: post.is_bloggable }, status: :ok
+    else
+      render json: { errors: post.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     post = Post.find_by(slug: params[:slug])
     authorize post
@@ -53,6 +71,6 @@ class PostsController < ApplicationController
   private
 
     def post_params
-      params.require(:post).permit(:title, :description, :user_id, :organization_id, category_ids: [])
+      params.require(:post).permit(:title, :description, :user_id, :organization_id, :is_bloggable, category_ids: [])
     end
 end

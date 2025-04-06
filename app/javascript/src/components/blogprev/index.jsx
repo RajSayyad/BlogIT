@@ -11,6 +11,15 @@ const BlogPrev = ({ post }) => {
       <CategoryView post={post} />
       <div className="ml-1 mt-4">
         <p className="text-sm text-gray-600">{post.user.name}</p>
+        <div className="m-1 flex w-auto">
+          <div
+            className={`align-items-center rounded-xl border border-red-400 bg-red-200 ${
+              post.is_bloggable ? "hidden" : " "
+            }`}
+          >
+            <p className="px-4 text-xs">Draft</p>
+          </div>
+        </div>
         <DateView dateStr={dateStr} />
       </div>
       <hr className="mt-2" />

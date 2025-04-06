@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 
-const SaveAndPublish = ({ handleClick }) => {
+const SaveAndPublish = ({ handlePublish, handleDraft }) => {
   const [currentAction, setCurrentAction] = useState("Publish");
 
-  // const handleClick = () => {
-  //   if (currentAction === "Publish") {
-  //     console.log("Publishing...");
-  //   } else {
-  //     console.log("Saving as draft...");
-  //   }
-  // };
+  const handleClick = event => {
+    event.preventDefault();
+    if (currentAction === "Publish") {
+      handlePublish(event);
+    } else {
+      handleDraft(event);
+    }
+  };
 
   const handleDropdownClick = () => {
     if (currentAction === "Publish") {

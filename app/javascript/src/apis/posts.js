@@ -12,6 +12,8 @@ const show = slug => axios.get(`/posts/${slug}`);
 
 const deletePost = slug => axios.delete(`/posts/${slug}`);
 
-const postsAPI = { fetch, create, show, edit, deletePost };
+const publishOrDraft = slug => axios.patch(`/posts/${slug}`);
+
+const postsAPI = { fetch, create, show, edit, deletePost, publishOrDraft };
 
 export default postsAPI;

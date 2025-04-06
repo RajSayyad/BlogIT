@@ -2,7 +2,11 @@
 
 Rails.application.routes.draw do
   root "home#index"
-  resources :posts, only: [:index, :create, :show, :update, :destroy], param: :slug
+  resources :posts, only: [:index, :create, :show, :update, :destroy], param: :slug do
+    member do
+      patch :toggle_bloggable
+    end
+  end
   resources :categories, only: [:index, :create]
   resources :users, only: [:create]
   resources :sessions, only: [:create, :destroy]

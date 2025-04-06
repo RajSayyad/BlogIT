@@ -47,7 +47,7 @@ const Edit = () => {
     }
   };
 
-  const handleSubmit = async event => {
+  const handlePublish = async event => {
     event.preventDefault();
 
     try {
@@ -57,6 +57,7 @@ const Edit = () => {
         user_id: userID,
         organization_id: organizationId,
         category_ids: postCategories,
+        is_bloggable: true,
       });
       toast.success(response.data.message);
       setPostTitle("");
@@ -65,6 +66,15 @@ const Edit = () => {
     } catch (error) {
       toast.error(error.response.data.error);
       Logger.error("Error creating post:", error);
+    }
+  };
+
+  const handleDraft = async () => {
+    try {
+      const response = await postsAPI.publishOrDraft(slug);
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.error[0]);
     }
   };
 
@@ -103,7 +113,10 @@ const Edit = () => {
           <HeadingView heading="Edit blog post" />
         </div>
         <div className="fixed right-24">
-          <SaveAndPublish handleClick={handleSubmit} />
+          <SaveAndPublish
+            handleDraft={handleDraft}
+            handlePublish={handlePublish}
+          />
         </div>
         <div className="fixed right-12">
           <ThreeDotMenu handleDelete={handleDelete} />
@@ -112,7 +125,6 @@ const Edit = () => {
       <Form
         categories={categories}
         categoriesDefault={categoriesDefault}
-        handleSubmit={handleSubmit}
         loading={loading}
         postDescription={postDescription}
         postTitle={postTitle}
