@@ -10,6 +10,8 @@ const edit = (slug, payload) => axios.put(`/posts/${slug}`, { post: payload });
 
 const show = slug => axios.get(`/posts/${slug}`);
 
-const postsAPI = { fetch, create, show, edit };
+const deletePost = slug => axios.delete(`/posts/${slug}`);
+
+const postsAPI = { fetch, create, show, edit, deletePost };
 
 export default postsAPI;

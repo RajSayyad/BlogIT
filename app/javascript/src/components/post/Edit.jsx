@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 import categoryApi from "../../apis/categories";
 import postsAPI from "../../apis/posts";
-import { HeadingView, Form, SaveAndPublish } from "../commons";
+import { HeadingView, Form, SaveAndPublish, ThreeDotMenu } from "../commons";
 
 const Edit = () => {
   const [categories, setCategories] = useState([]);
@@ -68,6 +68,16 @@ const Edit = () => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const response = await postsAPI.deletePost(slug);
+      toast.success(response.data.message);
+      history.push("/");
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
+  };
+
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -92,8 +102,11 @@ const Edit = () => {
         <div>
           <HeadingView heading="Edit blog post" />
         </div>
-        <div className="fixed right-12">
+        <div className="fixed right-24">
           <SaveAndPublish handleClick={handleSubmit} />
+        </div>
+        <div className="fixed right-12">
+          <ThreeDotMenu handleDelete={handleDelete} />
         </div>
       </div>
       <Form

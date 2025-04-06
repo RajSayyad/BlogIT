@@ -29,12 +29,22 @@ class PostsController < ApplicationController
   def update
     post = Post.find_by!(slug: params[:slug])
     if post.update(post_params)
+      post.touch
       render json: {
         message: "Post Updated",
         post: post.as_json(only: [:id, :title, :description]).merge(description: post.description.gsub("\n", "<br>"))
       }, status: :ok
     else
       render json: { error: post.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    post = Post.find_by(slug: params[:slug])
+    if post.destroy
+      render status: :ok, json: { message: "Post Deleted" }
+    else
+      render status: :unprocessable_entity, json: { error: post.errors.full_messages }
     end
   end
 

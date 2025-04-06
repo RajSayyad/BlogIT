@@ -3,7 +3,7 @@ import React from "react";
 import { DateView, CategoryView, HeadingView } from "../commons";
 
 const BlogPrev = ({ post }) => {
-  const dateStr = post.created_at;
+  const dateStr = post.updated_at;
 
   return (
     <div className="mt-8">

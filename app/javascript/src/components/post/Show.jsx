@@ -52,7 +52,7 @@ const Show = () => {
         </div>
         <div className="m-5 ml-20">
           <p className="text-md">{post.user.name}</p>
-          <DateView dateStr={post.created_at} />
+          <DateView dateStr={post.updated_at} />
         </div>
       </div>
       <div className="m-1">

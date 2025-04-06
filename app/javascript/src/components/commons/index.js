@@ -5,6 +5,7 @@ import Form from "./Form";
 import HeadingView from "./HeadingView";
 import Input from "./Input";
 import SaveAndPublish from "./SaveAndPublish";
+import ThreeDotMenu from "./ThreeDotMenu";
 
 export {
   DateView,
@@ -14,4 +15,5 @@ export {
   Input,
   Form,
   SaveAndPublish,
+  ThreeDotMenu,
 };
