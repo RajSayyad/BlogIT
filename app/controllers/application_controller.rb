@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user_using_x_auth_token
   include Pundit::Authorization
 
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   private
 
     def authenticate_user_using_x_auth_token
@@ -22,5 +24,13 @@ class ApplicationController < ActionController::Base
 
     def current_user
       @current_user
+    end
+
+    def user_not_authorized(exception)
+      render json: {
+        error: "You are not authorized to perform this action.",
+        policy: exception.policy.class.to_s.underscore,
+        query: exception.query
+      }, status: :forbidden
     end
 end

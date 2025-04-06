@@ -8,11 +8,23 @@ class PostPolicy
     @post = post
   end
 
+  def index?
+    Post.where(organization_id: user.organization_id).exists?
+  end
+
   def show?
     post.organization_id == user.organization_id
   end
 
-  def index?
-    Post.where(organization_id: user.organization_id).exists?
+  def edit?
+    post.user_id == user.id
+  end
+
+  def update?
+    edit?
+  end
+
+  def destroy?
+    edit?
   end
 end

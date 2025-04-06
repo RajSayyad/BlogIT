@@ -28,6 +28,7 @@ class PostsController < ApplicationController
 
   def update
     post = Post.find_by!(slug: params[:slug])
+    authorize post
     if post.update(post_params)
       post.touch
       render json: {
@@ -41,6 +42,7 @@ class PostsController < ApplicationController
 
   def destroy
     post = Post.find_by(slug: params[:slug])
+    authorize post
     if post.destroy
       render status: :ok, json: { message: "Post Deleted" }
     else
