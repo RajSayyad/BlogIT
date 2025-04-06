@@ -8,6 +8,7 @@ import { Login, Signup } from "./components/Authentication";
 import CategoryBar from "./components/categorybar";
 import PrivateRoute from "./components/commons/PrivateRoute";
 import Dashboard from "./components/dashboard";
+import MyPosts from "./components/myPosts";
 import { CreateTask, ShowTask, EditTask } from "./components/post";
 import Sidebar from "./components/sidebar";
 import { getFromLocalStorage } from "./utils/storage";
@@ -42,6 +43,7 @@ const Root = () => {
             <Route exact component={CreateTask} path="/post/create" />
             <Route exact component={ShowTask} path="/post/:slug" />
             <Route exact component={EditTask} path="/post/:slug/edit" />
+            <Route exact component={MyPosts} path="/my-posts" />
             <Route exact component={Login} path="/login" />
             <Route exact component={Signup} path="/signup" />
             <PrivateRoute

@@ -29,6 +29,10 @@ class PostPolicy
     edit?
   end
 
+  def my_posts?
+    true
+  end
+
   # ✅ Wrap resolve in the Scope class
   class Scope
     attr_reader :user, :scope

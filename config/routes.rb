@@ -6,7 +6,12 @@ Rails.application.routes.draw do
     member do
       patch :toggle_bloggable
     end
+
+    collection do
+      get :my_posts
+    end
   end
+
   resources :categories, only: [:index, :create]
   resources :users, only: [:create]
   resources :sessions, only: [:create, :destroy]

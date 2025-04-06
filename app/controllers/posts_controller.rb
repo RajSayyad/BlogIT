@@ -58,6 +58,12 @@ class PostsController < ApplicationController
     end
   end
 
+  def my_posts
+    posts = current_user.posts.includes(:categories)
+    authorize Post, :my_posts?
+    render json: posts.as_json(include: { categories: {}, user: { only: [:id, :name] } }), status: :ok
+  end
+
   def destroy
     post = Post.find_by(slug: params[:slug])
     authorize post
