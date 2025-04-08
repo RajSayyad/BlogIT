@@ -20,6 +20,10 @@ const upVote = slug => axios.put(`/posts/${slug}/upvote`);
 
 const downVote = slug => axios.put(`/posts/${slug}/downvote`);
 
+const generate = slug => axios.post(`/posts/${slug}/postpdf`);
+
+const download = slug => axios.get(`/posts/${slug}/postpdf/download`);
+
 const postsAPI = {
   fetch,
   create,
@@ -30,6 +34,8 @@ const postsAPI = {
   myPosts,
   upVote,
   downVote,
+  generate,
+  download,
 };
 
 export default postsAPI;

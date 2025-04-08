@@ -9,6 +9,10 @@ Rails.application.routes.draw do
       put :downvote
     end
 
+    resource :postpdf, only: [:create], module: :post do
+      get :download, on: :collection
+    end
+
     collection do
       get :my_posts
     end

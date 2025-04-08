@@ -4,6 +4,8 @@
 # Ignore all SQLite databases
 /db/*.sqlite3*
 
+./env
+
 # Ignore database.yml file
 /config/database.yml
 

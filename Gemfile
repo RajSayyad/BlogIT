@@ -12,6 +12,16 @@ gem "rails", "~> 7.1.3", ">= 7.1.3.4"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
+gem "sidekiq", "<7"
+
+# To load the environment variables
+gem "dotenv-rails"
+
+# PDF generation gem
+gem "wicked_pdf"
+# wicked_pdf uses the following binary
+gem "wkhtmltopdf-binary"
+
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", "~> 1.4"
 

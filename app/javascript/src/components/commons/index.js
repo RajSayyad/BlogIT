@@ -4,6 +4,7 @@ import DateView from "./DateView";
 import Form from "./Form";
 import HeadingView from "./HeadingView";
 import Input from "./Input";
+import ProgressBar from "./ProgressBar";
 import SaveAndPublish from "./SaveAndPublish";
 import ThreeDotMenu from "./ThreeDotMenu";
 
@@ -16,4 +17,5 @@ export {
   Form,
   SaveAndPublish,
   ThreeDotMenu,
+  ProgressBar,
 };

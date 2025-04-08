@@ -1,0 +1,23 @@
+<% content_for :title, "#{@post.title} - Blog PDF" %>
+
+<div class="header">
+  <div class="title"><%= @post.title %></div>
+  <div class="meta">
+    Created by <%= @post.user.name %> from <%= @post.user.organization.name %><br>
+    Posted on <%= @post.updated_at.strftime("%B %d, %Y") %>
+  </div>
+</div>
+
+<div class="section">
+  <div class="label">Categories:</div>
+  <div class="categories">
+    <%= @post.categories.map(&:name).join(", ") %>
+  </div>
+</div>
+
+<div class="section">
+  <div class="label">Description:</div>
+  <div class="description">
+    <%= simple_format(@post.description) %>
+  </div>
+</div>
