@@ -20,17 +20,19 @@ export const subscribeToPostDownloadChannel = ({
         generatePdf();
       },
       received(data) {
-        const { message, progress } = data;
+        const { message, progress, status } = data;
         setMessage(message);
         setProgress(progress);
+        if (status === "done") {
+          setTimeout(() => {
+            downloadPdf();
+          }, 3000);
+        }
       },
     }
   );
 
   return () => {
     consumer.subscriptions.remove(subscription);
-    setTimeout(() => {
-      downloadPdf();
-    }, 3000);
   };
 };

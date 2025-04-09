@@ -22,7 +22,8 @@ const downVote = slug => axios.put(`/posts/${slug}/downvote`);
 
 const generate = slug => axios.post(`/posts/${slug}/postpdf`);
 
-const download = slug => axios.get(`/posts/${slug}/postpdf/download`);
+const download = (slug, config) =>
+  axios.get(`/posts/${slug}/postpdf/download`, config);
 
 const postsAPI = {
   fetch,

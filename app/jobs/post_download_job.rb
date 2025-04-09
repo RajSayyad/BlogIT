@@ -11,7 +11,7 @@ class PostDownloadJob
 
     html_report = ApplicationController.render(
       assigns: { post: },
-      template: "post/postpdf/download",
+      template: "posts/postpdf/download",
       layout: "pdf"
     )
 

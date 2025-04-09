@@ -22,6 +22,7 @@ const Show = () => {
   const [post, setPost] = useState(null);
   const { slug } = useParams();
   const history = useHistory();
+
   const generatePdf = async () => {
     try {
       await postsAPI.generate(slug);
@@ -32,8 +33,11 @@ const Show = () => {
 
   const downloadPdf = async () => {
     try {
-      const { data } = await postsAPI.download(slug);
-      FileSaver.saveAs(data, `${post.title}.pdf`);
+      const response = await postsAPI.download(slug, {
+        responseType: "blob",
+      });
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      FileSaver.saveAs(blob, `${post.slug}.pdf`);
     } catch (error) {
       Logger.error(error);
     }
